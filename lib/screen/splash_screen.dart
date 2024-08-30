@@ -68,7 +68,7 @@ class SplashScreen extends StatelessWidget {
                     FloatingActionButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
-                        }, backgroundColor: AppColors.appPink,
+                        }, backgroundColor: AppColors.appLight,
                         child: const Icon(Icons.arrow_forward_rounded) ,)
                   ],
                 ),
