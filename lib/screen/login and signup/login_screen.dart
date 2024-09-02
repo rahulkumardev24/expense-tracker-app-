@@ -1,6 +1,5 @@
 import 'package:expense_tracker_app/Colors.dart';
 import 'package:expense_tracker_app/screen/login%20and%20signup/signup_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {

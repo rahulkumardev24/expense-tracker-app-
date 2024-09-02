@@ -1,3 +1,4 @@
+import 'package:expense_tracker_app/screen/add_expense_screen.dart';
 import 'package:expense_tracker_app/screen/login%20and%20signup/login_screen.dart';
 import 'package:expense_tracker_app/screen/login%20and%20signup/signup_screen.dart';
 import 'package:expense_tracker_app/screen/splash_screen.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home : const LoginScreen()
+      home : const AddExpenseScreen()
     );
   }
 }

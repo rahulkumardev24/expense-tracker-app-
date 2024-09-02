@@ -1,3 +1,4 @@
+import 'package:expense_tracker_app/screen/add_expense_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker_app/Colors.dart';
 
@@ -63,6 +64,32 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddExpenseScreen())) ;
+          },
+          backgroundColor: AppColors.appLight,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+          elevation: 3,
+          label: const Row(
+            children: [
+              Icon(
+                Icons.add,
+                size: 30,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                "Expense",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "myFontFirst"),
+              )
+            ],
+          )),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
