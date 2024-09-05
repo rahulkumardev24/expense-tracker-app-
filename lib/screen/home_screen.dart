@@ -1,6 +1,9 @@
+import 'package:expense_tracker_app/bloc/expense_bloc.dart';
+import 'package:expense_tracker_app/bloc/expense_state.dart';
 import 'package:expense_tracker_app/screen/add_expense_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker_app/Colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -94,6 +97,24 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
+            SizedBox(
+              height: 100,
+              child: BlocBuilder<ExpenseBloc , ExpenseState>(builder: (_ , state) {
+                if(state is ExpenseLoadedState) {
+                  return ListView.builder(
+                    itemCount: state.mData.length,
+                      itemBuilder: (_ , index) {
+                    return ListTile(
+                      title: Text(state.mData[index].expenseTitle),
+                      subtitle: Text(state.mData[index].expenseDescription),
+                      trailing: Text(state.mData[index].expenseAmount.toString()),
+                    ) ;
+                  }) ;
+                } return Container() ;
+              }),
+            ),
+
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
