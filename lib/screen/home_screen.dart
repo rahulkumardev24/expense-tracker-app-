@@ -18,9 +18,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  /// here we get all filter data form filterExpenseModel
   List<FilterExpenseModel> allData = [];
+
   DateFormat dateFormat = DateFormat.MMMMEEEEd();
+  DateFormat monthFormat = DateFormat.yMMMM();
+  DateFormat yearFormat = DateFormat.y();
+
+  List<String> filterType = ["Date", "Month", "Year", "Category"];
+  String selectedFilter = "Date";
 
   @override
   void initState() {
@@ -32,6 +37,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomRight: Radius.circular(10) , bottomLeft: Radius.circular(10))),
+
+        backgroundColor: AppColors.appLight.withOpacity(0.8),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 10.0),
+            child: Icon(
+              Icons.search,
+              color: Colors.black,
+              size: 35,
+            ),
+          ) ,
+
+        ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -50,10 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            const Icon(
-              Icons.search,
-              size: 35,
-            )
           ],
         ),
       ),
@@ -86,296 +101,369 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           )),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Image.asset(
-                  "assets/images/boy.png",
-                  height: 50,
-                  width: 50,
-                ),
-                const SizedBox(width: 20),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Morning",
-                      style: TextStyle(fontSize: 20, color: Colors.black54),
-                    ),
-                    Text(
-                      "Rahul Kumar",
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                const Expanded(child: SizedBox()),
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.lightSky,
-                    borderRadius: BorderRadius.circular(5),
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+           const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Image.asset(
+                    "assets/images/boy.png",
+                    height: 50,
+                    width: 50,
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  const SizedBox(width: 20),
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Morning",
+                        style: TextStyle(fontSize: 20, color: Colors.black54),
+                      ),
+                      Text(
+                        "Rahul Kumar",
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  const Expanded(child: SizedBox()),
+
+                  /// ---------------------- filter drop down menu --------------------
+                  Container(
+                    decoration: BoxDecoration(
+                        color: AppColors.lightSky,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(width: 1, color: AppColors.appDeep)),
                     child: Row(
                       children: [
-                        Text(
-                          "This month",
-                          style: TextStyle(fontSize: 20),
+                        DropdownMenu(
+                          trailingIcon: const Icon(
+                            Icons.filter_list_alt,
+                            color: AppColors.appEditBox4,
+                          ),
+                          initialSelection: selectedFilter,
+                          onSelected: (value) {
+                            selectedFilter = value!;
+                            setState(() {});
+                          },
+                          dropdownMenuEntries: filterType
+                              .map((eachType) => DropdownMenuEntry(
+                                  value: eachType, label: eachType))
+                              .toList(),
                         ),
-                        Icon(Icons.keyboard_arrow_down)
                       ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-
-          /// box
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Container(
-              height: 150,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: AppColors.blue,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          const Text(
-                            "Expense total",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                          ),
-                          const Text(
-                            "\$3,734",
-                            style: TextStyle(fontSize: 30, color: Colors.white),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.redAccent,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 4),
-                                  child: Text(
-                                    "+\$240",
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                "than last month",
-                                style: TextStyle(
-                                    color: Colors.white54, fontSize: 18),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      height: 300,
-                      width: 300,
-                      child: Image.asset(
-                        "assets/images/box.png",
-                        fit: BoxFit.cover,
-                      ),
                     ),
                   )
                 ],
               ),
             ),
-          ),
+            const SizedBox(height: 10),
 
-          /// Expense list
-          const SizedBox(height: 10),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              "Expense List",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-          ),
-
-          Expanded(
-            child: BlocBuilder<ExpenseBloc, ExpenseState>(
-              builder: (context, state) {
-                if (state is ExpenseLoadingState) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is ExpenseErrorState) {
-                  return Center(
-                    child: Text("Error : ${state.errorMessage}"),
-                  );
-                } else if (state is ExpenseLoadedState) {
-                  var allExpense = state.mData;
-                  filterExpenseDateWise(allExpense);
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: allData.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(color: AppColors.lightSky, width: 2),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const SizedBox(height: 10),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0, vertical: 8),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      allData[index].title,
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "\$${allData[index].totalAmount}",
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 1,
+            /// box
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Container(
+                height: 150,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: AppColors.blue,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const Text(
+                              "Expense total",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                            const Text(
+                              "\$3,734",
+                              style:
+                                  TextStyle(fontSize: 30, color: Colors.white),
+                            ),
+                            Row(
+                              children: [
+                                Container(
                                   decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 2, color: AppColors.lightSky),
+                                    color: Colors.redAccent,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 4),
+                                    child: Text(
+                                      "+\$240",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white),
+                                    ),
                                   ),
                                 ),
-                              ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  "than last month",
+                                  style: TextStyle(
+                                      color: Colors.white54, fontSize: 18),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        height: 300,
+                        width: 300,
+                        child: Image.asset(
+                          "assets/images/box.png",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
 
-                              /// sub list
-                              ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: allData[index].fExpense.length,
-                                  itemBuilder: (context, childIndex) {
-                                    /// category image path get
-                                    String categoryImagePathGet = AppConstants
-                                        .appCategory
-                                        .where((element) =>
-                                            element['id'] ==
-                                            allData[index]
-                                                .fExpense[childIndex]
-                                                .expenseCategoryId)
-                                        .toList()[0]['iconPath'];
+            /// Expense list
+            const SizedBox(height: 10),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                "Expense List",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+            ),
 
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0, horizontal: 10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                                color: AppColors.lightSky,
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Image.asset(
-                                                    categoryImagePathGet),
-                                              )),
-                                          const SizedBox(width: 20),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                allData[index]
-                                                    .fExpense[childIndex]
-                                                    .expenseTitle,
-                                                style: const TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                allData[index]
-                                                    .fExpense[childIndex]
-                                                    .expenseDescription,
-                                                style: const TextStyle(
-                                                    fontSize: 20),
-                                              ),
-                                            ],
+            Expanded(
+              child: BlocBuilder<ExpenseBloc, ExpenseState>(
+                builder: (context, state) {
+                  if (state is ExpenseLoadingState) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is ExpenseErrorState) {
+                    return Center(
+                      child: Text("Error : ${state.errorMessage}"),
+                    );
+                  } else if (state is ExpenseLoadedState) {
+                    var allExpense = state.mData;
+
+                    /// here we apply switch condition for display expense according to date , month , year , category
+                    switch (selectedFilter) {
+                      case "Date":
+                        filterExpenseDateWise(allExpense);
+                        break;
+                      case "Month":
+                        filterExpenseMonthWise(allExpense);
+                        break;
+                      case "Year":
+                        filterExpenseYearWise(allExpense);
+                        break;
+                      case "Category":
+                        filterExpenseCategoryWise(allExpense);
+                        break;
+                      default:
+                        allData.clear();
+                        break;
+                    }
+
+                    return allExpense.isNotEmpty
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: allData.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0, vertical: 10),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: AppColors.lightSky, width: 2),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      const SizedBox(height: 10),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0, vertical: 8),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              allData[index].title,
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              "\$${allData[index].totalAmount}",
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 1,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                width: 2,
+                                                color: AppColors.lightSky),
                                           ),
-                                          const Expanded(child: SizedBox()),
-                                          Text(
-                                            "${allData[index].fExpense[childIndex].expenseAmount}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                                color: allData[index]
+                                        ),
+                                      ),
+
+                                      /// sub list
+                                      ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount:
+                                              allData[index].fExpense.length,
+                                          itemBuilder: (context, childIndex) {
+                                            /// category image path get
+                                            String categoryImagePathGet =
+                                                AppConstants.appCategory
+                                                    .where((element) =>
+                                                        element['id'] ==
+                                                        allData[index]
                                                             .fExpense[
                                                                 childIndex]
-                                                            .expenseType ==
-                                                        0
-                                                    ? Colors.red
-                                                    : Colors.green),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  })
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }
-                return Container();
-              },
+                                                            .expenseCategoryId)
+                                                    .toList()[0]['iconPath'];
+
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0,
+                                                      horizontal: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                      height: 50,
+                                                      width: 50,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4),
+                                                        color:
+                                                            AppColors.lightSky,
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Image.asset(
+                                                            categoryImagePathGet),
+                                                      )),
+                                                  const SizedBox(width: 20),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        allData[index]
+                                                            .fExpense[
+                                                                childIndex]
+                                                            .expenseTitle,
+                                                        style: const TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(
+                                                        allData[index]
+                                                            .fExpense[
+                                                                childIndex]
+                                                            .expenseDescription,
+                                                        style: const TextStyle(
+                                                            fontSize: 20),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const Expanded(
+                                                      child: SizedBox()),
+                                                  Text(
+                                                    "${allData[index].fExpense[childIndex].expenseAmount}",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20,
+                                                        color: allData[index]
+                                                                    .fExpense[
+                                                                        childIndex]
+                                                                    .expenseType ==
+                                                                0
+                                                            ? Colors.red
+                                                            : Colors.green),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          })
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        : Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/wallet.png",
+                                  height: 100,
+                                  width: 100,
+                                ),
+                                const Text(
+                                  "No expense found",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontFamily: "myFontFirst",
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.black87),
+                                ),
+                              ],
+                            ),
+                          );
+                  }
+
+                  return Container();
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -418,5 +506,133 @@ class _HomeScreenState extends State<HomeScreen> {
       allData.add(FilterExpenseModel(
           title: eachDate, fExpense: eachDateExpenses, totalAmount: amt));
     }
+  }
+
+  /// month wise filter
+  void filterExpenseMonthWise(List<ExpenseModel> allExpense) {
+    allData.clear();
+    List<String> uniqueMonths = [];
+    for (ExpenseModel eachExp in allExpense) {
+      var eachMonth = monthFormat.format(
+          DateTime.fromMillisecondsSinceEpoch(int.parse(eachExp.expenseDate)));
+      if (!uniqueMonths.contains(eachMonth)) {
+        uniqueMonths.add(eachMonth);
+      }
+    }
+
+    for (String eachMonth in uniqueMonths) {
+      List<ExpenseModel> eachMonthExpenses = [];
+      num amt = 0;
+
+      for (ExpenseModel eachExp in allExpense) {
+        var eachExpMonth = monthFormat.format(
+            DateTime.fromMillisecondsSinceEpoch(
+                int.parse(eachExp.expenseDate)));
+        if (eachExpMonth == eachMonth) {
+          eachMonthExpenses.add(eachExp);
+          if (eachExp.expenseType == 0) {
+            amt -= eachExp.expenseAmount;
+          } else {
+            amt += eachExp.expenseAmount;
+          }
+        }
+      }
+      allData.add(FilterExpenseModel(
+        title: eachMonth,
+        fExpense: eachMonthExpenses,
+        totalAmount: amt,
+      ));
+    }
+  }
+
+  /// year-wise filter
+  void filterExpenseYearWise(List<ExpenseModel> allExpense) {
+    allData.clear();
+
+    List<String> uniqueYears = [];
+
+    // Extract unique years
+    for (ExpenseModel eachExp in allExpense) {
+      var eachYear = yearFormat.format(
+          DateTime.fromMillisecondsSinceEpoch(int.parse(eachExp.expenseDate)));
+      if (!uniqueYears.contains(eachYear)) {
+        uniqueYears.add(eachYear);
+      }
+    }
+
+    // Filter expenses by each unique year
+    for (String eachYear in uniqueYears) {
+      List<ExpenseModel> eachYearExpenses = [];
+      num amt = 0;
+
+      for (ExpenseModel eachExp in allExpense) {
+        var eachExpYear = yearFormat.format(DateTime.fromMillisecondsSinceEpoch(
+            int.parse(eachExp.expenseDate)));
+        if (eachExpYear == eachYear) {
+          eachYearExpenses.add(eachExp);
+
+          // Calculate total amount (income and expense)
+          if (eachExp.expenseType == 0) {
+            amt -= eachExp.expenseAmount; // Expense
+          } else {
+            amt += eachExp.expenseAmount; // Income
+          }
+        }
+      }
+
+      // Add the filtered data with total amount for the year
+      allData.add(FilterExpenseModel(
+        title: eachYear,
+        fExpense: eachYearExpenses,
+        totalAmount: amt,
+      ));
+    }
+  }
+
+  /// Category-wise filter
+  void filterExpenseCategoryWise(List<ExpenseModel> allExpense) {
+    allData.clear();
+
+    // Create a map to hold category-wise data
+    Map<String, List<ExpenseModel>> categoryMap = {};
+
+    // Populate the map with expenses categorized by category title
+    for (ExpenseModel eachExp in allExpense) {
+      String? categoryTitle = getCategoryTitle(eachExp.expenseCategoryId);
+      if (categoryTitle != null) {
+        if (!categoryMap.containsKey(categoryTitle)) {
+          categoryMap[categoryTitle] = [];
+        }
+        categoryMap[categoryTitle]!.add(eachExp);
+      }
+    }
+
+    // Process each category to calculate total amounts and create FilterExpenseModel
+    for (var entry in categoryMap.entries) {
+      String categoryTitle = entry.key;
+      List<ExpenseModel> expenses = entry.value;
+      num totalAmount = 0;
+      for (ExpenseModel eachExp in expenses) {
+        if (eachExp.expenseType == 0) {
+          totalAmount -= eachExp.expenseAmount; // Expense
+        } else {
+          totalAmount += eachExp.expenseAmount; // Income
+        }
+      }
+      allData.add(FilterExpenseModel(
+        title: categoryTitle,
+        fExpense: expenses,
+        totalAmount: totalAmount,
+      ));
+    }
+  }
+
+  String? getCategoryTitle(int categoryId) {
+    for (var category in AppConstants.appCategory) {
+      if (category['id'] == categoryId) {
+        return category['title'];
+      }
+    }
+    return null;
   }
 }
