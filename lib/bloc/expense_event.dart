@@ -6,3 +6,7 @@ abstract class ExpenseEvent {}
   ExpenseModel newExpense ;
   AddNewExpenseEvent({required this.newExpense}) ;
  }
+
+ class GetInitialExpenseEvent extends ExpenseEvent{
+
+ }

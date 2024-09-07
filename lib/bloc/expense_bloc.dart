@@ -18,7 +18,15 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       }else {
         emit(ExpenseErrorState(errorMessage: "Expense is not added!!")) ;
       }
-
     });
+    on<GetInitialExpenseEvent>((event , emit) async {
+      emit(ExpenseLoadingState());
+      var data =  await appDataBase.getAllExpense();
+      emit(ExpenseLoadedState(mData: data));
+
+    }) ;
+
+
+
   }
 }

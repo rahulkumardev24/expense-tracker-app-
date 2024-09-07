@@ -32,5 +32,6 @@ class AppConstants {
       "id": 12,
       "iconPath": "assets/category/electrical.png"
     },
+    {"title": "Rent", "id": 13, "iconPath": "assets/category/house.png"},
   ];
 }
