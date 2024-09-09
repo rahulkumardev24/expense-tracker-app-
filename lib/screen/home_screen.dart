@@ -19,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<FilterExpenseModel> allData = [];
+  num balance = 0.0;
 
   DateFormat dateFormat = DateFormat.MMMMEEEEd();
   DateFormat monthFormat = DateFormat.yMMMM();
@@ -37,8 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomRight: Radius.circular(10) , bottomLeft: Radius.circular(10))),
-
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(10),
+                bottomLeft: Radius.circular(10))),
         backgroundColor: AppColors.appLight.withOpacity(0.8),
         actions: const [
           Padding(
@@ -48,8 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.black,
               size: 35,
             ),
-          ) ,
-
+          ),
         ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const AddExpenseScreen()));
+                    builder: (context) => AddExpenseScreen(
+                          balanceTillNow: balance,
+                        )));
           },
           backgroundColor: AppColors.appLight,
           foregroundColor: Colors.white,
@@ -106,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           const SizedBox(height: 10),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Row(
@@ -190,10 +194,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white),
                             ),
-                            const Text(
-                              "\$3,734",
-                              style:
-                                  TextStyle(fontSize: 30, color: Colors.white),
+                            Text(
+                              "\$$balance",
+                              style: const TextStyle(
+                                  fontSize: 30, color: Colors.white),
                             ),
                             Row(
                               children: [
@@ -250,7 +254,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             Expanded(
-              child: BlocBuilder<ExpenseBloc, ExpenseState>(
+              child: BlocConsumer<ExpenseBloc, ExpenseState>(
+                listener: (_, state) {
+                  if (state is ExpenseLoadedState) {
+                    balance = state.mData.isNotEmpty
+                        ? state.mData.last.expenseBalance
+                        : 0.0;
+                    setState(() {});
+                  }
+                },
                 builder: (context, state) {
                   if (state is ExpenseLoadingState) {
                     return const Center(
@@ -261,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text("Error : ${state.errorMessage}"),
                     );
                   } else if (state is ExpenseLoadedState) {
-                    var allExpense = state.mData;
+                    var allExpense = state.mData.reversed.toList(); /// reversed apply for latest data show
 
                     /// here we apply switch condition for display expense according to date , month , year , category
                     switch (selectedFilter) {

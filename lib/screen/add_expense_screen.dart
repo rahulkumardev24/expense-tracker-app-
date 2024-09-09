@@ -9,7 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class AddExpenseScreen extends StatefulWidget {
-  const AddExpenseScreen({super.key});
+  num balanceTillNow;
+  AddExpenseScreen({super.key, required this.balanceTillNow});
   @override
   State<AddExpenseScreen> createState() => _AddExpenseScreenState();
 }
@@ -270,22 +271,32 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                   width: 120,
                   child: ElevatedButton(
                       onPressed: () {
+
+                        ///--------------------Here we adding expense---------------------///
                         String title = titleController.text.toString();
-                        String description =
-                            descriptionController.text.toString();
+                        String description = descriptionController.text.toString();
                         String amount = amountController.text.toString();
                         if (title.isNotEmpty &&
                             amount.isNotEmpty &&
                             description.isNotEmpty) {
                           if (selectedCategory != -1) {
+                            num balance = widget.balanceTillNow;
+                            num expenseAmount = double.parse(
+                                amountController.text.toString());
+                            if(selectedMethod =="Debit"){
+                              balance -= expenseAmount ;
+
+                            }else {
+                              balance += expenseAmount ;
+                            }
+
                             /// add expense perform here
                             context.read<ExpenseBloc>().add(AddNewExpenseEvent(
                                 newExpense: ExpenseModel(
                                     expenseCategoryId: AppConstants
                                         .appCategory[selectedCategory]["id"],
-                                    expenseAmount: double.parse(
-                                        amountController.text.toString()),
-                                    expenseBalance: 0,
+                                    expenseAmount: expenseAmount,
+                                    expenseBalance: balance,
                                     expenseDate: selectedDate!
                                         .millisecondsSinceEpoch
                                         .toString(),
