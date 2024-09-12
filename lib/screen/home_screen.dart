@@ -5,10 +5,13 @@ import 'package:expense_tracker_app/domain/app_constants.dart';
 import 'package:expense_tracker_app/model/expense_model.dart';
 import 'package:expense_tracker_app/model/filterExpenseModel.dart';
 import 'package:expense_tracker_app/screen/add_expense_screen.dart';
+import 'package:expense_tracker_app/screen/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker_app/Colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
+import '../domain/app_utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> filterType = ["Date", "Month", "Year", "Category"];
   String selectedFilter = "Date";
 
+  // Create a GlobalKey for the Scaffold
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     super.initState();
@@ -36,40 +41,99 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLight = Theme.of(context).brightness==Brightness.light;
     return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: isLight ? Colors.white : Colors.black,
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(10),
-                bottomLeft: Radius.circular(10))),
-        backgroundColor: AppColors.appLight.withOpacity(0.8),
-        actions: const [
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
+          ),
+        ),
+        backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.white : Colors.black , // Replace with AppColors.appLight
+        automaticallyImplyLeading: false,
+        actions: [
           Padding(
-            padding: EdgeInsets.only(right: 10.0),
-            child: Icon(
-              Icons.search,
-              color: Colors.black,
-              size: 35,
+            padding: const EdgeInsets.only(right: 10.0),
+            child: IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: Colors.black,
+                size: 35,
+              ),
+              onPressed: () {
+                // Open the drawer when the search icon is pressed
+                _scaffoldKey.currentState?.openDrawer();
+              },
             ),
           ),
         ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "assets/images/icon.png",
-                  height: 80,
-                  width: 80,
-                ),
-                const Text(
-                  "Monety",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                ),
-              ],
+            InkWell(
+              onTap: () {
+                // Open the drawer when the image is tapped
+                _scaffoldKey.currentState?.openDrawer();
+              },
+              child: Image.asset(
+                "assets/images/icon.png",
+                height: 80,
+                width: 80,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text(
+              "MoneyMap",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Column(
+                children: [
+                  Image.asset(
+                    "assets/images/money.png",
+                    height: 100,
+                    width: 100,
+                  ),
+                  const Text(
+                    'MoneyMap',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              title: const Text('Setting'),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingScreen()));
+              },
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {
+                // Handle item tap
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
@@ -122,20 +186,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 50,
                   ),
                   const SizedBox(width: 20),
-                  const Column(
+                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Morning",
-                        style: TextStyle(fontSize: 20, color: Colors.black54),
-                      ),
+                        style:
+                        mTextStyle15(fontColor: isLight ? Colors.black87 : Colors.white)),
                       Text(
                         "Rahul Kumar",
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
+                        style: mTextStyle18(fontWeight: FontWeight.bold , fontColor: isLight ? Colors.black : Colors.white),
                       ),
                     ],
                   ),
+
                   const Expanded(child: SizedBox()),
 
                   /// ---------------------- filter drop down menu --------------------
@@ -194,11 +258,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white),
                             ),
-                            Text(
-                              "\$$balance",
-                              style: const TextStyle(
-                                  fontSize: 30, color: Colors.white),
-                            ),
+                            Text("\$$balance",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayLarge
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
                             Row(
                               children: [
                                 Container(
@@ -273,7 +337,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text("Error : ${state.errorMessage}"),
                     );
                   } else if (state is ExpenseLoadedState) {
-                    var allExpense = state.mData.reversed.toList(); /// reversed apply for latest data show
+                    var allExpense = state.mData.reversed.toList();
+
+                    /// reversed apply for latest data show
 
                     /// here we apply switch condition for display expense according to date , month , year , category
                     switch (selectedFilter) {
@@ -322,15 +388,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
                                             Text(
                                               allData[index].title,
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
+                                              style: Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold)
                                             ),
                                             Text(
                                               "\$${allData[index].totalAmount}",
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
+                                              style:Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold)
                                             ),
                                           ],
                                         ),
@@ -406,19 +468,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             .fExpense[
                                                                 childIndex]
                                                             .expenseTitle,
-                                                        style: const TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                        style:Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
                                                       ),
                                                       Text(
                                                         allData[index]
                                                             .fExpense[
                                                                 childIndex]
                                                             .expenseDescription,
-                                                        style: const TextStyle(
-                                                            fontSize: 20),
+                                                        style:Theme.of(context).textTheme.displayMedium,
                                                       ),
                                                     ],
                                                   ),
@@ -535,7 +592,6 @@ class _HomeScreenState extends State<HomeScreen> {
     for (String eachMonth in uniqueMonths) {
       List<ExpenseModel> eachMonthExpenses = [];
       num amt = 0;
-
       for (ExpenseModel eachExp in allExpense) {
         var eachExpMonth = monthFormat.format(
             DateTime.fromMillisecondsSinceEpoch(

@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../Colors.dart';
 
@@ -10,6 +11,11 @@ class StaticScreen extends StatefulWidget {
 
 class _StaticScreenState extends State<StaticScreen> {
   double expenseValue = 3734; // Initial value for the expense
+  List<String> filterType = ["Date", "Month", "Year", "Category"];
+  String selectedFilter = "Date";
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,26 +66,35 @@ class _StaticScreenState extends State<StaticScreen> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: AppColors.lightSky,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            "This month",
-                            style: TextStyle(fontSize: 20),
+                        color: AppColors.lightSky,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(width: 1, color: AppColors.appDeep)),
+                    child: Row(
+                      children: [
+                        DropdownMenu(
+                          trailingIcon: const Icon(
+                            Icons.filter_list_alt,
+                            color: AppColors.appEditBox4,
                           ),
-                          Icon(Icons.keyboard_arrow_down),
-                        ],
-                      ),
+                          initialSelection: selectedFilter,
+                          onSelected: (value) {
+                            setState(() {
+                              selectedFilter = value!;
+                            });
+                          },
+                          dropdownMenuEntries: filterType
+                              .map((eachType) => DropdownMenuEntry(
+                              value: eachType, label: eachType))
+                              .toList(),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 10),
+            ///----------------banner-----------------
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Container(
@@ -149,50 +164,34 @@ class _StaticScreenState extends State<StaticScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 10),
+            // Bar chart showing dynamic data
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Expense Breakdown",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 25),
-                      ),
-                      Text(
-                        "Limit \$900/week",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.lightSky,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Week",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Icon(Icons.keyboard_arrow_down),
-                        ],
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: SizedBox(
+                height: 300, // Adjust height as needed
+               /* child: BarChart(
+                  BarChartData(
+                    barGroups: ,
+                    borderData: FlBorderData(show: false),
+                    titlesData: FlTitlesData(
+                      show: true,
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget: (value, meta) {
+
+                            return Text("");
+                          },
+                        ),
                       ),
                     ),
+                    gridData: FlGridData(show: false),
                   ),
-                ],
+                ),*/
               ),
             ),
-            Image.asset("assets/images/graph.png"),
+            const SizedBox(height: 20),
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -206,104 +205,13 @@ class _StaticScreenState extends State<StaticScreen> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 100,
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(5),
-                              bottomLeft: Radius.circular(5)),
-                          border: Border.all(
-                            width: 7,
-                            color: Colors.blue,
-                          )),
-                    ),
-                    const Text("40%")
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 90,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        width: 7,
-                        color: Colors.pinkAccent,
-                      )),
-                    ),
-                    const Text("25%")
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 70,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        width: 7,
-                        color: Colors.yellow,
-                      )),
-                    ),
-                    const Text("15%")
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 40,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        width: 7,
-                        color: Colors.cyanAccent,
-                      )),
-                    ),
-                    const Text("10%")
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 40,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        width: 7,
-                        color: Colors.redAccent,
-                      )),
-                    ),
-                    const Text("5%")
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 40,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 7,
-                          color: Colors.greenAccent,
-                        ),
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(5),
-                            bottomRight: Radius.circular(5)),
-                      ),
-                    ),
-                    const Text("5%")
-                  ],
-                ),
+                // Legend display
+                // You can customize each category with different colors
               ],
             ),
             const SizedBox(height: 10),
@@ -316,67 +224,45 @@ class _StaticScreenState extends State<StaticScreen> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: 5 / 3,
                   crossAxisCount: 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 10,
                 ),
                 itemBuilder: (context, index) {
                   return Container(
-                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border:
-                            Border.all(width: 2, color: AppColors.lightSky)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                        color: Monday[index]["iconBackGround"],
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Icon(
+                          Monday[index]["icon"],
+                          size: 35,
+                          color: Monday[index]["iconColors"],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Monday[index]["iconBackGround"],
-                              ),
-                              child: Icon(
-                                Monday[index]["icon"],
-                                color: Monday[index]["iconColors"],
-                              ),
+                            Text(
+                              Monday[index]["title"],
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    Monday[index]["title"],
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            const SizedBox(height: 5),
+                            Text(
+                              Monday[index]["price"],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Monday[index]["iconColors"]),
                             ),
                           ],
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          Monday[index]["price"],
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                          ),
                         ),
                       ],
                     ),
                   );
                 },
               ),
-            ),
+            )
           ],
         ),
       ),

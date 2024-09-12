@@ -38,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget myBottomNavigations(BuildContext context) {
     return Container(
       height: 90,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border.symmetric(
           horizontal: BorderSide(width: 2, color: AppColors.lightSky),
         ),
@@ -50,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           Container(
             width: double.infinity,
-            decoration: BoxDecoration(color: AppColors.lightSky),
+            decoration: const BoxDecoration(color: AppColors.lightSky),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
