@@ -1,4 +1,5 @@
 import 'package:expense_tracker_app/screen/home_screen.dart';
+import 'package:expense_tracker_app/screen/login%20and%20signup/login_screen.dart';
 import 'package:expense_tracker_app/screen/main_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -67,7 +68,7 @@ class SplashScreen extends StatelessWidget {
                     ),
                     FloatingActionButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>  LoginScreen()));
                         }, backgroundColor: AppColors.appLight,
                         child: const Icon(Icons.arrow_forward_rounded) ,)
                   ],

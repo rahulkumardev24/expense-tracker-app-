@@ -1,5 +1,6 @@
 import 'package:expense_tracker_app/Colors.dart';
 import 'package:expense_tracker_app/screen/login%20and%20signup/signup_screen.dart';
+import 'package:expense_tracker_app/screen/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,11 +15,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-
   Future<void> _login() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
-
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MainScreen()));
   }
 
   @override
@@ -31,9 +31,9 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 300,
               width: double.infinity,
               decoration: const BoxDecoration(
-                  color:AppColors.appDeep,
+                  color: AppColors.appDeep,
                   borderRadius:
-                  BorderRadius.only(bottomLeft: Radius.circular(150))),
+                      BorderRadius.only(bottomLeft: Radius.circular(150))),
               child: Stack(
                 children: [
                   Positioned(
@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Shadow(
                                   color: Colors.black,
                                   blurRadius: 4,
-                                  offset: Offset(1.0,1.0),
+                                  offset: Offset(1.0, 1.0),
                                 ),
                               ],
                             ),
@@ -84,11 +84,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: emailController,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor:AppColors.appEditBox1,
+                  fillColor: AppColors.appEditBox1,
                   border: InputBorder.none,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(width: 1, color: Colors.pinkAccent),
+                    borderSide:
+                        const BorderSide(width: 1, color: Colors.pinkAccent),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -202,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: const BoxDecoration(
                   color: AppColors.appLight,
                   borderRadius:
-                  BorderRadius.only(topRight: Radius.circular(150))),
+                      BorderRadius.only(topRight: Radius.circular(150))),
               child: Stack(
                 children: [
                   Positioned(
@@ -232,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed:_login,
+                          onPressed: _login,
                           style: ElevatedButton.styleFrom(
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
@@ -348,7 +349,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           },
                           style: OutlinedButton.styleFrom(
-                            side: const BorderSide(width: 2, color:AppColors.appEditBox4),
+                            side: const BorderSide(
+                                width: 2, color: AppColors.appEditBox4),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:expense_tracker_app/Colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
 import '../domain/app_utils.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> filterType = ["Date", "Month", "Year", "Category"];
   String selectedFilter = "Date";
 
-  // Create a GlobalKey for the Scaffold
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
@@ -41,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isLight = Theme.of(context).brightness==Brightness.light;
+    bool isLight = Theme.of(context).brightness == Brightness.light;
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: isLight ? Colors.white : Colors.black,
@@ -52,19 +50,20 @@ class _HomeScreenState extends State<HomeScreen> {
             bottomLeft: Radius.circular(10),
           ),
         ),
-        backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.white : Colors.black , // Replace with AppColors.appLight
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.white
+            : Colors.black,
         automaticallyImplyLeading: false,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.search,
-                color: Colors.black,
+                color: isLight ? Colors.black : Colors.white,
                 size: 35,
               ),
               onPressed: () {
-                // Open the drawer when the search icon is pressed
                 _scaffoldKey.currentState?.openDrawer();
               },
             ),
@@ -87,9 +86,11 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 10,
             ),
-            const Text(
+            Text(
               "MoneyMap",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: mTextStyle18(
+                  fontColor: isLight ? Colors.black : Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -186,16 +187,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 50,
                   ),
                   const SizedBox(width: 20),
-                   Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Morning",
-                        style:
-                        mTextStyle15(fontColor: isLight ? Colors.black87 : Colors.white)),
+                      Text("Morning",
+                          style: mTextStyle15(
+                              fontColor:
+                                  isLight ? Colors.black87 : Colors.white)),
                       Text(
                         "Rahul Kumar",
-                        style: mTextStyle18(fontWeight: FontWeight.bold , fontColor: isLight ? Colors.black : Colors.white),
+                        style: mTextStyle18(
+                            fontWeight: FontWeight.bold,
+                            fontColor: isLight ? Colors.black : Colors.white),
                       ),
                     ],
                   ),
@@ -205,7 +208,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   /// ---------------------- filter drop down menu --------------------
                   Container(
                     decoration: BoxDecoration(
-                        color: AppColors.lightSky,
+                        color: isLight
+                            ? AppColors.appEditBox1.withOpacity(0.5)
+                            : AppColors.appLight,
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(width: 1, color: AppColors.appDeep)),
                     child: Row(
@@ -386,14 +391,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
+                                            Text(allData[index].title,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .displayMedium
+                                                    ?.copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
                                             Text(
-                                              allData[index].title,
-                                              style: Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold)
-                                            ),
-                                            Text(
-                                              "\$${allData[index].totalAmount}",
-                                              style:Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold)
-                                            ),
+                                                "\$${allData[index].totalAmount}",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .displayMedium
+                                                    ?.copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
                                           ],
                                         ),
                                       ),
@@ -468,14 +480,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             .fExpense[
                                                                 childIndex]
                                                             .expenseTitle,
-                                                        style:Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .displayMedium
+                                                            ?.copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
                                                       ),
                                                       Text(
                                                         allData[index]
                                                             .fExpense[
                                                                 childIndex]
                                                             .expenseDescription,
-                                                        style:Theme.of(context).textTheme.displayMedium,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .displayMedium,
                                                       ),
                                                     ],
                                                   ),

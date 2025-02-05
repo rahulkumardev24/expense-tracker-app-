@@ -20,7 +20,6 @@ class _MainScreenState extends State<MainScreen> {
     const HomeScreen(),
     const HomeScreen(),
   ];
-
   void _onItemTapped(int index) {
     setState(() {
       currentScreen = index;

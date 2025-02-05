@@ -34,8 +34,9 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
 
         /// them mode // provider
-        themeMode: context.watch<ThemeProvider>().getThemeValue() ? ThemeMode.dark : ThemeMode.light,
-
+        themeMode: context.watch<ThemeProvider>().getThemeValue()
+            ? ThemeMode.dark
+            : ThemeMode.light,
 
         /// dark them
         darkTheme: ThemeData(
@@ -49,7 +50,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
-
         /// light them
         theme: ThemeData(
           brightness: Brightness.light,
@@ -62,6 +62,6 @@ class MyApp extends StatelessWidget {
           canvasColor: Colors.white,
           useMaterial3: true,
         ),
-        home: const HomeScreen());
+        home: const SplashScreen());
   }
 }

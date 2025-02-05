@@ -251,8 +251,7 @@ class _SignupScreenState extends State<SignupScreen> {
               width: double.infinity,
               decoration: const BoxDecoration(
                 color: AppColors.appLight,
-                borderRadius:
-                    BorderRadius.only(topRight: Radius.circular(150)),
+                borderRadius: BorderRadius.only(topRight: Radius.circular(150)),
               ),
               child: Stack(
                 children: [
@@ -299,7 +298,6 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                         ],
                       ),
-
                     ],
                   ),
                   Positioned(
@@ -331,7 +329,8 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                             ),
                           ),
-                          // Google Button
+
+                          /// Google Button
                           SizedBox(
                             height: 50,
                             width: 50,
@@ -378,7 +377,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   Positioned(
-                    bottom: 50,
+                    bottom: 70,
                     right: 16,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -401,7 +400,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           },
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(
-                                width: 3, color:AppColors.appEditBox4),
+                                width: 3, color: AppColors.appEditBox4),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -414,7 +413,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                 Shadow(
                                   color: Colors.black,
                                   blurRadius: 2,
-
                                 ),
                               ],
                               fontSize: 20,
