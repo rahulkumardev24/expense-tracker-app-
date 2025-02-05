@@ -1,16 +1,12 @@
-# expense_tracker_app
+<h1>Expense Tracker App </h1>
+<div>
+<img src= "https://github.com/rahulkumardev24/expense-tracker-app-/blob/master/Screenshot_20250205_142235.png" height = 500 /> 
+<img src= "https://github.com/rahulkumardev24/expense-tracker-app-/blob/master/Screenshot_20250205_144028.png" height = 500 /> 
+<img src= "https://github.com/rahulkumardev24/expense-tracker-app-/blob/master/Screenshot_20250205_150118.png" height = 500 /> 
+<img src= "https://github.com/rahulkumardev24/expense-tracker-app-/blob/master/Screenshot_20250205_142357.png" height = 500 /> 
+<img src= "https://github.com/rahulkumardev24/expense-tracker-app-/blob/master/Screenshot_20250205_142412.png" height = 500 /> 
+<img src= "https://github.com/rahulkumardev24/expense-tracker-app-/blob/master/Screenshot_20250205_143331.png" height = 500 /> 
+<img src= "https://github.com/rahulkumardev24/expense-tracker-app-/blob/master/Screenshot_20250205_143259.png" height = 500 /> 
+</div>
 
-A new Flutter project.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
